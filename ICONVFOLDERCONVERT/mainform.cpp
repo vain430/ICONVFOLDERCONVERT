@@ -9,6 +9,7 @@ twitter : @vain430
 
 
 
+
 #include <windows.h>
 #include <tchar.h>
 #include "resource.h"
@@ -266,18 +267,10 @@ void FileEncode(iconv_t it, tstring path)
 		outPtr = outbuff;
 		in_size = strlen(inbuff);
 		out_size = MAX_BUFF;
-		while (in_size)
-		{
-			ret = iconv(it, &inPtr, &in_size, &outPtr, &out_size);
-		}
+		memset(outbuff, 0, sizeof(outbuff));
+		ret = iconv(it, &inPtr, &in_size, &outPtr, &out_size);
 		err = errno;
-		
-
 		fputs(outbuff, out);
-
-
-
-
 		switch (err)
 		{
 		case EINVAL:
@@ -288,8 +281,6 @@ void FileEncode(iconv_t it, tstring path)
 			break;
 		}
 		err = 0;
-		memset(inbuff, 0, sizeof(inbuff));
-		memset(outbuff, 0, sizeof(outbuff));
 	}
 
 
